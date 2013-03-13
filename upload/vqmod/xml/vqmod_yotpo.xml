@@ -48,6 +48,7 @@
                     data-bread-crumbs="<?php echo $product_bread_crumbs; ?>"
                     data-lang="<?php echo $language; ?>">
                   </div> 
+                 </div> 
                 <?php  } ?>
         ]]>
               </add>
@@ -59,7 +60,6 @@
               <add>
               <![CDATA[
                 <?php if ($yotpo_widget_location == 'footer') { ?>
-                 <div id="tab-yotpo-review" class="tab-content">
                   <div class="yotpo reviews"
                     data-appkey="<?php echo $appkey; ?>"
                     data-domain="<?php echo $domain; ?>"
