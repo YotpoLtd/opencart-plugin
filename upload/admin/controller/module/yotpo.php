@@ -23,28 +23,13 @@ class ControllerModuleYotpo extends Controller {
 
 		//Pull languages
 		$this->data['heading_title'] = $this->language->get('heading_title');
-		
-		$this->data['text_yes'] = $this->language->get('text_yes');
-		$this->data['text_no'] = $this->language->get('text_no');
-		$this->data['text_enabled'] = $this->language->get('text_enabled');
-		$this->data['text_disabled'] = $this->language->get('text_disabled');
-		
-		$this->data['text_content_top'] = $this->language->get('text_content_top');
-		$this->data['text_content_bottom'] = $this->language->get('text_content_bottom');		
-		$this->data['text_column_left'] = $this->language->get('text_column_left');
-		$this->data['text_column_right'] = $this->language->get('text_column_right');
 
 		$this->data['button_save'] = $this->language->get('button_save');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
 
 		$this->data['entry_appkey'] = $this->language->get('entry_appkey');		
 		$this->data['entry_secret'] = $this->language->get('entry_secret');
-		$this->data['entry_default'] = $this->language->get('entry_default');
-
-		$this->data['entry_layout'] = $this->language->get('entry_layout');
-		$this->data['entry_position'] = $this->language->get('entry_position');
-		$this->data['entry_status'] = $this->language->get('entry_status');
-		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
+		$this->data['entry_language'] = $this->language->get('entry_language');
 
 		//User entries
  		if (isset($this->error['appkey'])) {
@@ -104,23 +89,11 @@ class ControllerModuleYotpo extends Controller {
 			$this->data['yotpo_secret'] = $this->config->get('yotpo_secret');
 		}	
 		
-		if (isset($this->request->post['yotpo_default'])) {
-			$this->data['yotpo_default'] = $this->request->post['yotpo_default'];
+		if (isset($this->request->post['yotpo_language'])) {
+			$this->data['yotpo_language'] = $this->request->post['yotpo_language'];
 		} else {
-			$this->data['yotpo_default'] = $this->config->get('yotpo_default');
+			$this->data['yotpo_language'] = $this->config->get('yotpo_language');
 		}	
-
-		$this->data['modules'] = array();
-		
-		if (isset($this->request->post['google_talk_module'])) {
-			$this->data['modules'] = $this->request->post['google_talk_module'];
-		} elseif ($this->config->get('google_talk_module')) { 
-			$this->data['modules'] = $this->config->get('google_talk_module');
-		}			
-
-		$this->load->model('design/layout');
-		
-		$this->data['layouts'] = $this->model_design_layout->getLayouts();
 
 		//Choose which template file will be used to display this request.
 		$this->template = 'module/yotpo.tpl';
@@ -158,7 +131,6 @@ class ControllerModuleYotpo extends Controller {
 			return FALSE;
 		}	
 	}
-
 
 }
 ?>

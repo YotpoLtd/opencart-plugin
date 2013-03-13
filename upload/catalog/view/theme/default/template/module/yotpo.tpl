@@ -11,5 +11,5 @@
   data-image-url="<?php echo $product_image_url; ?>"
   data-description="<?php echo $product_description; ?>"
   data-bread-crumbs="<?php echo $product_bread_crumbs; ?>"
-  data-lang="<?php echo $language; ?>"
+  data-lang="<?php echo $language; ?>">
 </div>				
