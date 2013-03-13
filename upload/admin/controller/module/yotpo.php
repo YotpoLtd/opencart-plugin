@@ -30,6 +30,8 @@ class ControllerModuleYotpo extends Controller {
 		$this->data['entry_appkey'] = $this->language->get('entry_appkey');		
 		$this->data['entry_secret'] = $this->language->get('entry_secret');
 		$this->data['entry_language'] = $this->language->get('entry_language');
+		$this->data['entry_review_tab_name'] = $this->language->get('entry_tab_name');
+		$this->data['entry_widget_location'] = $this->language->get('entry_widget_location');
 
 		//User entries
  		if (isset($this->error['appkey'])) {
@@ -93,8 +95,24 @@ class ControllerModuleYotpo extends Controller {
 			$this->data['yotpo_language'] = $this->request->post['yotpo_language'];
 		} else {
 			$this->data['yotpo_language'] = $this->config->get('yotpo_language');
-		}	
+		}
 
+		if (isset($this->request->post['yotpo_review_tab_name'])) {
+			$this->data['yotpo_review_tab_name'] = $this->request->post['yotpo_review_tab_name'];
+		} else {
+			$this->data['yotpo_review_tab_name'] = $this->config->get('yotpo_review_tab_name');
+		}		
+		if(is_null($this->data['yotpo_review_tab_name']) || $this->data['yotpo_review_tab_name'] == '') {
+			$this->data['yotpo_review_tab_name'] = $this->language->get('yotpo_default_reviews_tab_name');
+		}
+		if (isset($this->request->post['yotpo_widget_location'])) {
+			$this->data['yotpo_widget_location'] = $this->request->post['yotpo_widget_location'];
+		} else {
+			$this->data['yotpo_widget_location'] = $this->config->get('yotpo_widget_location');
+		}		
+		if(is_null($this->data['yotpo_widget_location']) || $this->data['yotpo_widget_location'] == '') {
+			$this->data['yotpo_widget_location'] = $this->language->get('yotpo_default_widget_location');
+		}		
 		//Choose which template file will be used to display this request.
 		$this->template = 'module/yotpo.tpl';
 		$this->children = array(

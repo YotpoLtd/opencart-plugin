@@ -10,7 +10,7 @@ $this->data['yotpo_review'] = $this->language->get('yotpo_review');
 		
 		$this->data['appkey'] = $this->config->get('yotpo_appkey');
 		$this->data['domain'] = HTTP_SERVER;
-		$this->data['language'] = "en" //$this->config->get('yotpo_language');
+		$this->data['language'] = "en"; //$this->config->get('yotpo_language');
 		$this->data['product_id'] = $this->request->get['product_id'];
 		$product = $this->model_catalog_product->getProduct($this->data['product_id']);
 		$this->data['product_name'] = $product['name'];

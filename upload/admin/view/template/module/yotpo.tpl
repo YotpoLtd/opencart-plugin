@@ -39,21 +39,110 @@
         <td><?php echo $entry_language; ?></td>
           <td>
             <select name="yotpo_language">
-              <option value="en" {if $yotpo_language == "en"}selected{/if}>English</option>
-              <option value="de" {if $yotpo_language == "de"}selected{/if}>German</option>
-              <option value="es" {if $yotpo_language == "es"}selected{/if}>Spanish</option>
-              <option value="fr" {if $yotpo_language == "fr"}selected{/if}>French</option>
-              <option value="he" {if $yotpo_language == "he"}selected{/if}>Hebrew</option>
-              <option value="hr" {if $yotpo_language == "hr"}selected{/if}>Croatian</option>
-              <option value="it" {if $yotpo_language == "it"}selected{/if}>Italian</option>
-              <option value="ja" {if $yotpo_language == "ja"}selected{/if}>Japanese</option>
-              <option value="nl" {if $yotpo_language == "nl"}selected{/if}>Dutch</option>
-              <option value="pt" {if $yotpo_language == "pt"}selected{/if}>Portuguese</option>
-              <option value="sv" {if $yotpo_language == "sv"}selected{/if}>Swedish</option>
-              <option value="vi" {if $yotpo_language == "vi"}selected{/if}>Vietnamese</option>
+              <?php if($yotpo_language == 'en' ) { ?>
+                <option value="en" selected="selected">English</option>                                  
+              <?php } else { ?>
+                <option value="en">English</option>
+              <?php } ?>
+              
+              <?php if($yotpo_language == 'de' ) { ?>
+                <option value="de" selected="selected">German</option>                                   
+              <?php } else { ?>
+                <option value="de">German</option>
+              <?php } ?>
+              
+              <?php if($yotpo_language == 'es' ) { ?>
+                <option value="es" selected="selected">Spanish</option>                                  
+              <?php } else { ?>
+                <option value="es">Spanish</option>
+              <?php } ?>
+              
+              <?php if($yotpo_language == 'fr' ) { ?>
+                <option value="fr" selected="selected">French</option>                                   
+              <?php } else { ?>
+                <option value="fr">French</option>
+              <?php } ?>
+              
+              <?php if($yotpo_language == 'he' ) { ?>
+                <option value="he" selected="selected">Hebrew</option>                                   
+              <?php } else { ?>
+                <option value="he">Hebrew</option>
+              <?php } ?>
+              
+              <?php if($yotpo_language == 'hr' ) { ?>
+                <option value="hr" selected="selected">Croatian</option>                                   
+              <?php } else { ?>
+                <option value="hr">Croatian</option>
+              <?php } ?> 
+              
+              <?php if($yotpo_language == 'it' ) { ?>
+                <option value="it" selected="selected">Italian</option>                                  
+              <?php } else { ?>
+                <option value="it">Italian</option>
+              <?php } ?>
+              
+              <?php if($yotpo_language == 'ja' ) { ?>
+                <option value="ja" selected="selected">Japanese</option>                                   
+              <?php } else { ?>
+                <option value="ja">Japanese</option>
+              <?php } ?>
+
+              <?php if($yotpo_language == 'nl' ) { ?>
+                <option value="nl" selected="selected">Dutch</option>                                  
+              <?php } else { ?>
+                <option value="nl">Dutch</option>
+              <?php } ?>
+              
+              <?php if($yotpo_language == 'pt' ) { ?>
+                <option value="pt" selected="selected">Portuguese</option>                                   
+              <?php } else { ?>
+                <option value="pt">Portuguese</option>
+              <?php } ?> 
+              
+              <?php if($yotpo_language == 'sv' ) { ?>
+                <option value="sv" selected="selected">Swedish</option>                                  
+              <?php } else { ?>
+                <option value="sv">Swedish</option>
+              <?php } ?>
+              
+              <?php if($yotpo_language == 'vi' ) { ?>
+                <option value="vi" selected="selected">Vietnamese</option>                                   
+              <?php } else { ?>
+                <option value="vi">Vietnamese</option>
+              <?php } ?>                        
             </select>
           </td>
         </tr>
+        <tr>
+          <td><?php echo $entry_review_tab_name; ?></td>
+          <td><input type="text" name="yotpo_review_tab_name" value="<?php echo $yotpo_review_tab_name; ?>">
+              <?php if ($error_secret) { ?>
+                <span class="error"><?php echo $error_secret; ?></span>
+              <?php } ?>
+          </td>
+        </tr>
+        <tr>
+          <td><?php echo $entry_widget_location;echo $yotpo_widget_location; ?></td>
+          <td>
+            <select name="yotpo_widget_location">            
+                <?php if($yotpo_widget_location == 'footer' ) { ?>
+                  <option value="footer" selected="selected">Footer</option>                                   
+                <?php } else { ?>
+                  <option value="footer">Footer</option>
+              <?php } ?>
+                <?php if($yotpo_widget_location == 'tab' ) { ?>
+                  <option value="tab" selected="selected">Tab</option>                                   
+                <?php } else { ?>
+                  <option value="tab">Tab</option>
+              <?php } ?>
+                <?php if($yotpo_widget_location == 'other' ) { ?>
+                  <option value="other" selected="selected">Other</option>                                   
+                <?php } else { ?>
+                  <option value="other">Other</option>
+              <?php } ?>                                      
+            </select>
+          </td>
+        </tr>        
       </table>
     </form>
   </div>

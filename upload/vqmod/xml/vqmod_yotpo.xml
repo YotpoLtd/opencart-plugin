@@ -2,12 +2,12 @@
     <id>Yotpo www.yotpo.com</id>
       <version>1.0</version>
 		   <vqmver>2.2.1</vqmver>
-       <author>www.best-byte.com</author>	
+       <author>Yotpo</author>	
 
     <file name="catalog/view/theme/*/template/common/header.tpl">
       <operation>
         <search position="before" index="1" error="log">
-          <![CDATA[text/javascript]]>
+          <![CDATA[</head>]]>
         </search>
         <add><![CDATA[
         <script type="text/javascript" src="https://www.yotpo.com/js/yQuery.js"></script>
@@ -15,111 +15,96 @@
       </operation>
     </file>
 
-
     <file name="catalog/view/theme/*/template/product/product.tpl">
-        <operation>
-            <search position="replace" index="1" error="log">
-            <![CDATA[<?php if ($review_status) { ?>]]>
-            </search>
-            <add>
-            <![CDATA[<?php if (true) { ?>]]>
-            </add>
-        </operation>
-
-        <operation>
-            <search position="replace" index="2" error="log">
-            <![CDATA[<?php if ($review_status) { ?>]]>
-            </search>
-            <add>
-            <![CDATA[<?php if (true) { ?>]]>
-            </add>
-        </operation>
-
-        <operation>
-            <search position="replace" error="log">
-            <![CDATA[echo $tab_review;]]>
-            </search>
-            <add>
-            <![CDATA[echo $yotpo_review;]]>
-            </add>
-        </operation>
-
-        <operation>
-            <search position="before" index="3" error="log">
-            <![CDATA[<?php if ($review_status) { ?>]]>
-            </search>
-            <add><![CDATA[
-              <div id="tab-review" class="tab-content">
-              <script type="text/javascript" src="https://www.yotpo.com/js/yQuery.js"></script>
-              <div class="yotpo reviews"
-                data-appkey="<?php echo $appkey; ?>"
-                data-domain="<?php echo $domain; ?>"
-                data-product-id="<?php echo $product_id; ?>"
-                data-product-models="<?php echo $product_models; ?>"
-                data-name="<?php echo $product_name; ?>"
-                data-url="<?php echo $product_url; ?>"
-                data-image-url="<?php echo $product_image_url; ?>"
-                data-description="<?php echo $product_description; ?>"
-                data-bread-crumbs="<?php echo $product_bread_crumbs; ?>"
-                data-lang="<?php echo $language; ?>">
-              </div>    
-            ]]></add>
-        </operation>
-
-        <operation>
-            <search position="after" error="log">
-            <![CDATA[<div class="review">]]>
-            </search>
-            <add><![CDATA[
-            <div class="yotpo bottomLine"
-              data-appkey="<?php echo $appkey; ?>"
-              data-domain="<?php echo $domain; ?>"
-              data-product-id="<?php echo $product_id; ?>"
-              data-product-models="<?php echo $product_models; ?>"
-              data-name="<?php echo $product_name; ?>"
-              data-url="<?php echo $product_url; ?>"
-              data-image-url="<?php echo $product_image_url; ?>"
-              data-description="<?php echo $product_description; ?>"
-              data-bread-crumbs="<?php echo $product_bread_crumbs; ?>"
-              data-lang="<?php echo $language; ?>">
-            </div>  
-            <?php if ($review_status) { ?>
-            ]]></add>
-        </operation>
+          <operation>
+              <search position="before" index="2" error="log">
+              <![CDATA[<?php if ($review_status) { ?>]]>
+              </search>
+              <add>
+              <![CDATA[
+                <?php if ($yotpo_widget_location == 'tab') { ?>
+                  <a href="#tab-yotpo-review"><?php echo $yotpo_review_tab_name; ?></a>
+                <?php  } ?>
+              ]]>
+              </add>
+          </operation>
+          <operation>
+              <search position="before" index="3" error="log">
+              <![CDATA[<?php if ($review_status) { ?>]]>
+              </search>
+              <add>
+              <![CDATA[
+                <?php if ($yotpo_widget_location == 'tab') { ?>
+                 <div id="tab-yotpo-review" class="tab-content">
+                  <div class="yotpo reviews"
+                    data-appkey="<?php echo $appkey; ?>"
+                    data-domain="<?php echo $domain; ?>"
+                    data-product-id="<?php echo $product_id; ?>"
+                    data-product-models="<?php echo $product_models; ?>"
+                    data-name="<?php echo $product_name; ?>"
+                    data-url="<?php echo $product_url; ?>"
+                    data-image-url="<?php echo $product_image_url; ?>"
+                    data-description="<?php echo $product_description; ?>"
+                    data-bread-crumbs="<?php echo $product_bread_crumbs; ?>"
+                    data-lang="<?php echo $language; ?>">
+                  </div> 
+                <?php  } ?>
+        ]]>
+              </add>
+          </operation> 
+          <operation>
+              <search position="before" index="1" error="log">
+              <![CDATA[<div id="tabs" class="htabs"><a href="#tab-description"><?php echo $tab_description; ?></a>]]>
+              </search>
+              <add>
+              <![CDATA[
+                <?php if ($yotpo_widget_location == 'footer') { ?>
+                 <div id="tab-yotpo-review" class="tab-content">
+                  <div class="yotpo reviews"
+                    data-appkey="<?php echo $appkey; ?>"
+                    data-domain="<?php echo $domain; ?>"
+                    data-product-id="<?php echo $product_id; ?>"
+                    data-product-models="<?php echo $product_models; ?>"
+                    data-name="<?php echo $product_name; ?>"
+                    data-url="<?php echo $product_url; ?>"
+                    data-image-url="<?php echo $product_image_url; ?>"
+                    data-description="<?php echo $product_description; ?>"
+                    data-bread-crumbs="<?php echo $product_bread_crumbs; ?>"
+                    data-lang="<?php echo $language; ?>">
+                  </div> 
+                <?php  } ?>
+        ]]>
+              </add>
+          </operation>               
+    </file>    
 
 
-        <operation>
-            <search position="before" error="log">
-            <![CDATA[<div class="share">]]>
-            </search>
-            <add><![CDATA[
-            <?php } ?>
-            ]]></add>
-        </operation>
+ 
+
+    <file name="catalog/controller/product/product.php">
+      <operation>
+        <search position="after" index="1" error="log">
+          <![CDATA[public function index()]]>
+        </search>
+        <add><![CDATA[
+            $this->data['appkey'] = $this->config->get('yotpo_appkey');
+            $this->data['language'] = $this->config->get('yotpo_language');
+            $this->data['domain'] = HTTP_SERVER;
+            $this->data['product_id'] = $this->request->get['product_id'];
+            $this->load->model('catalog/product');  
+            $product = $this->model_catalog_product->getProduct($this->data['product_id']);
+            $this->data['product_name'] = $product['name'];
+            $this->data['product_description'] = "";//$product['description'];
+            $this->data['product_url'] = HTTP_SERVER . 'index.php?route=product/product&product_id=' . $this->data['product_id'];
+            $this->data['product_image_url'] = HTTP_SERVER . $product['image'];
+            $this->data['product_models'] = $product['model'];
+            $this->data['product_bread_crumbs'] = "";
+            $this->language->load('module/yotpo');
+            $this->data['yotpo_review'] = $this->language->get('yotpo_review');
+            $this->data['yotpo_review_tab_name'] = $this->config->get('yotpo_review_tab_name');
+            $this->data['yotpo_widget_location'] = $this->config->get('yotpo_widget_location');
+        ]]></add>
+      </operation>
     </file>
-
-  <file name="catalog/controller/product/product.php">
-    <operation>
-      <search position="after" index="1" error="log">
-        <![CDATA[public function index()]]>
-      </search>
-      <add><![CDATA[
-          $this->data['appkey'] = $this->config->get('yotpo_appkey');
-          $this->data['language'] = $this->config->get('yotpo_language');
-          $this->data['domain'] = HTTP_SERVER;
-          $this->data['product_id'] = $this->request->get['product_id'];
-          $this->load->model('catalog/product');  
-          $product = $this->model_catalog_product->getProduct($this->data['product_id']);
-          $this->data['product_name'] = $product['name'];
-          $this->data['product_description'] = "";//$product['description'];
-          $this->data['product_url'] = HTTP_SERVER . 'index.php?route=product/product&product_id=' . $this->data['product_id'];
-          $this->data['product_image_url'] = HTTPS_IMAGE . $product['image'];
-          $this->data['product_models'] = $product['model'];
-          $this->data['product_bread_crumbs'] = "";
-          $this->language->load('module/yotpo');
-          $this->data['yotpo_review'] = $this->language->get('yotpo_review');
-      ]]></add>
-    </operation>
-  </file>
 
 </modification>
