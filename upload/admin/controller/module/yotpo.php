@@ -6,7 +6,7 @@ class ControllerModuleYotpo extends Controller {
 	private $error = array(); 
 	private static $language_assigns = array('heading_title','heading_settings_title','heading_signup_title','button_save','button_cancel',
 										 'entry_appkey','entry_secret','entry_language','entry_review_tab_name','entry_widget_location',
-										 'entry_user_name','entry_password','entry_confirm_password','entry_email','entry_bottom_line');
+										 'entry_user_name','entry_password','entry_confirm_password','entry_email','entry_bottom_line','entry_past_orders','entry_sign_up_button');
 	private static $error_assigns = array('error_appkey','error_secret','error_user_name','error_email','error_password',
 									 	  'error_confirm_password','error_warning');
 	private static $config_assigns = array('yotpo_appkey','yotpo_secret','yotpo_language','yotpo_user_name','yotpo_email',
@@ -35,6 +35,19 @@ class ControllerModuleYotpo extends Controller {
 					$success_text = $this->language->get('text_signup_success');
 				}
 			}
+			
+			elseif ($this->request->request['action'] == 'past_orders') {
+				$past_orders_sent = $this->config->get('yotpo_past_order_sent');
+				if(empty($past_orders_sent)) {	
+					$this->request->post['yotpo_past_order_sent'] = 'true';
+					$this->load->model('tool/yotpo');
+					$result = $this->model_tool_yotpo->past_orders();
+					if(is_null($result)) {
+						$success_text = $this->language->get('text_past_orders_success');
+					}										
+				}
+			}	
+					
 			if(is_null($result) || !isset($result['message'])) {
 				$this->session->data['success'] = $success_text;
 				$this->model_setting_setting->editSetting('yotpo', $this->request->post);
@@ -106,7 +119,12 @@ class ControllerModuleYotpo extends Controller {
 		$this->data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
 
 		$this->data['sign_up'] = $this->url->link('module/yotpo', 'token=' . $this->session->data['token'] . '&action=signup', 'SSL');
-				
+
+		$this->data['past_orders'] = $this->url->link('module/yotpo', 'token=' . $this->session->data['token'] . '&action=past_orders', 'SSL');
+		$past_orders_enable = $this->config->get('yotpo_past_order_sent');
+		
+		$this->data['yotpo_show_past_orders_button'] = empty($past_orders_enable) ? true : false;
+		
 		//Choose which template file will be used to display this request.
 		$this->template = 'module/yotpo.tpl';
 		$this->children = array(

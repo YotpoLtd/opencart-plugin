@@ -3,6 +3,97 @@ class ModelToolYotpo extends Model {
 	const YOTPO_API_URL = 'https://api.yotpo.com';
 	const HTTP_REQUEST_TIMEOUT = 30;
 	const YOTPO_OAUTH_TOKEN_URL = 'https://api.yotpo.com/oauth/token';
+	const PAST_ORDERS_DAYS_BACK = 90;
+	const PAST_ORDERS_LIMIT = 10000;
+	const BULK_SIZE = 1000;
+
+	private function get_map_data($order) {
+			$data = array();
+		    $customer = NULL;
+		    $data["order_date"] = $order['date_added'];
+		    $data["email"] = $order['email'];
+		    $data["customer_name"] = $order['firstname'] . ' ' . $order['lastname'];
+		    $data["order_id"] = $order['order_id'];
+		    $data['platform'] = 'prestashop';
+		    $data["currency_iso"] = $order['currency_code'];
+
+		    $products_arr = array();
+
+		    $this->load->model('sale/order');
+			$this->load->model('catalog/product');
+			$this->load->model('tool/image');
+		    $products = $this->model_sale_order->getOrderProducts($order['order_id']);
+		    foreach ($products as $order_product) {
+
+		      $full_product = $this->model_catalog_product->getProduct($order_product['product_id']);
+		      $product_data = array();
+		      if ($full_product['image']) {
+		      	$product_data['image'] = $this->model_tool_image->resize($full_product['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
+		      } else {
+		      	$product_data['image'] = '';
+		      }
+		      $product_data['url'] = HTTP_CATALOG . 'index.php?route=product/product&product_id=' . $order_product['product_id'];
+		      $product_data['name'] = strip_tags(html_entity_decode($full_product['name']));
+		      $product_data['description'] = strip_tags(html_entity_decode($full_product['description']));
+		      $product_data['price'] = $order_product['price'];
+
+		      $products_arr[$order_product['product_id']] = $product_data;
+		    }
+		    $data['products'] = $products_arr;
+		    return $data;
+	}
+
+	private function getPastOrders()
+	{	
+		$this->load->model('localisation/order_status');
+		$order_statuses = $this->model_localisation_order_status->getOrderStatuses();
+
+		foreach ($order_statuses as $status) {
+			if ($status['name'] == 'Shipped' ||
+			$status['name'] == 'Complete') {
+
+				$accepted_status[] = $status['order_status_id'];
+			}
+		}
+	
+		$query = $this->db->query('SELECT order_id, firstname, lastname, email, date_added, currency_code, total 
+								   FROM '. DB_PREFIX. 'order 
+								   WHERE order_status_id IN ('.join(',', $accepted_status).') AND 
+								   date_added <  NOW() AND 
+								   DATE_SUB(NOW(), INTERVAL '.self::PAST_ORDERS_DAYS_BACK.' day) < date_added 
+								   LIMIT 0,'.self::PAST_ORDERS_LIMIT.'');
+		$result = $query->rows;		
+		if (is_array($result))
+		{
+			$orders = array();
+			foreach ($result as $singleMap)
+			{
+				$res = $this->get_map_data($singleMap);
+				if (!is_null($res))
+					$orders[] = $res;
+			}
+			$post_bulk_orders = array_chunk($orders, self::BULK_SIZE);
+			$data = array();
+			foreach ($post_bulk_orders as $index => $bulk)
+			{
+				$data[$index] = array();
+				$data[$index]['orders'] = $bulk;
+				$data[$index]['platform'] = 'prestashop';			
+			}
+			return $data;
+		}
+		return null;
+	}
+
+	public function makePastOrdersRequest($data, $app_key, $secret_token)
+	{
+		$token = $this->grantOauthAccess($app_key, $secret_token);
+		if (!empty($token))
+		{
+			$data['utoken'] = $token;
+		    return $this->makePostRequest(self::YOTPO_API_URL.'/apps/'.$app_key.'/purchases/mass_create', $data);
+		}
+	}
 	
 	public function signUp($params)	{
 		$is_mail_valid = $this->checkeMailAvailability($params['yotpo_email']);
@@ -16,7 +107,6 @@ class ModelToolYotpo extends Model {
 				if ($accountPlatformResponse['status']['code'] == 200)
 				{
 					return array('appkey' => $app_key, 'secret' => $secret);
-					//return array(true, $app_key, $secret);
 				}
 				else
 					return array('message' => $accountPlatformResponse['status']['message']);
@@ -84,7 +174,6 @@ class ModelToolYotpo extends Model {
 		}
 	}
 
-
 	public function make_single_map($order_id) {
 		$app_key = $this->config->get('yotpo_appkey');
 		$secret_token = $this->config->get('yotpo_secret');
@@ -107,47 +196,33 @@ class ModelToolYotpo extends Model {
 				if(!empty($token)) {
 					$data = $this->get_map_data($order);
 					$data['utoken'] = $token;
-					error_log('map data = ' . json_encode($data));
 					$this->makePostRequest(self::YOTPO_API_URL . '/apps/' . $app_key . "/purchases/", $data);
 				}
 			}
 		}
 	}
 	
-	private function get_map_data($order) {
-			$data = array();
-		    $customer = NULL;
-		    $data["order_date"] = $order['date_added'];
-		    $data["email"] = $order['email'];
-		    $data["customer_name"] = $order['firstname'] . ' ' . $order['lastname'];
-		    $data["order_id"] = $order['order_id'];
-		    $data['platform'] = 'prestashop';
-		    $data["currency_iso"] = $order['currency_code'];
-
-		    $products_arr = array();
-
-		    $this->load->model('sale/order');
-			$this->load->model('catalog/product');
-			$this->load->model('tool/image');
-		    $products = $this->model_sale_order->getOrderProducts($order['order_id']);
-		    foreach ($products as $order_product) {
-
-		      $full_product = $this->model_catalog_product->getProduct($order_product['product_id']);
-		      $product_data = array();
-		      if ($full_product['image']) {
-		      	$product_data['image'] = $this->model_tool_image->resize($full_product['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
-		      } else {
-		      	$product_data['image'] = '';
-		      }
-		      $product_data['url'] = HTTP_CATALOG . 'index.php?route=product/product&product_id=' . $order_product['product_id'];
-		      $product_data['name'] = strip_tags(html_entity_decode($full_product['name']));
-		      $product_data['description'] = strip_tags(html_entity_decode($full_product['description']));
-		      $product_data['price'] = $order_product['price'];
-
-		      $products_arr[$order_product['product_id']] = $product_data;
-		    }
-		    $data['products'] = $products_arr;
-		    return $data;
-	}
+	public function past_orders() {
+		$api_key = $this->config->get('yotpo_appkey');
+		$secret_token = $this->config->get('yotpo_secret');
+		if(is_string($secret_token) && is_string($api_key) && strlen($secret_token) > 0 && strlen($api_key) > 0) {
+			$past_orders = $this->getPastOrders();
+			$message = null;
+			foreach ($past_orders as $post_bulk)
+			if (!is_null($post_bulk))
+			{
+				$response = $this->makePastOrdersRequest($post_bulk, $api_key, $secret_token);
+				if ($response['status']['code'] != 200 && is_null($message))
+				{
+					$message = 	$response['status']['message'];
+				}
+			}
+			return is_null($message) ? null : array('message' => $message);
+		}
+		else {
+			return array('message' => 'You need to set your app key and secret token to post past orders');
+		}
+			
+	}	
 }
 ?>

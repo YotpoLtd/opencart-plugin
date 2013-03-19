@@ -5,7 +5,7 @@
        <author>Yotpo</author>	
 
     <file name="catalog/view/theme/*/template/common/header.tpl">
-      <operation>
+      <operation info="Yotpo - get yQuery.js">
         <search position="before" index="1" error="log">
           <![CDATA[</head>]]>
         </search>
@@ -16,58 +16,38 @@
     </file>
 
     <file name="catalog/controller/product/category.php">
-    <operation>
+    <operation info="Yotpo - set bottom line data">
       <search position="after" index="1" error="log">
-        <![CDATA[public function index()]]>
+        <![CDATA[public function index() {]]>
       </search>
       <add><![CDATA[
-          $this->data['appkey'] = $this->config->get('yotpo_appkey');
-          $this->data['language'] = $this->config->get('yotpo_language');
-          $this->data['domain'] = HTTP_SERVER;
-          $this->data['yotpo_bottom_line_enabled'] = $this->config->get('yotpo_bottom_line_enabled');
+          $yotpo_bottom_line_enabled = $this->config->get('yotpo_bottom_line_enabled');
+      	  if($yotpo_bottom_line_enabled) { 
+        	  $this->data['appkey'] = $this->config->get('yotpo_appkey');
+          	$this->data['language'] = $this->config->get('yotpo_language');
+          	$this->data['domain'] = HTTP_SERVER;
+          	$this->data['yotpo_bottom_line_enabled'] = $yotpo_bottom_line_enabled;
+          }
       ]]></add>
     </operation>
-    <operation>
+    <operation info="Yotpo - set bottom line data">
       <search position="before" index="1" error="log">
-        <![CDATA[$this->response->setOutput($this->render());]]>
+        <![CDATA[if (isset($this->request->get['path'])) {]]>
       </search>
       <add><![CDATA[
-      	  $yotpo_bread_crumbs = array();
-          foreach ($this->data['breadcrumbs'] as $breadcrumb) {
-    	 	$yotpo_bread_crumbs[] = $breadcrumb['text'];
-    	  }
-          $this->data['yotpo_bread_crumbs'] = implode(';', $yotpo_bread_crumbs);
+      	  if($yotpo_bottom_line_enabled) { 
+      	  	$yotpo_bread_crumbs = array();
+          	foreach ($this->data['breadcrumbs'] as $breadcrumb) {
+    	 		$yotpo_bread_crumbs[] = $breadcrumb['text'];
+    	 	 }
+         	 $this->data['yotpo_bread_crumbs'] = implode(';', $yotpo_bread_crumbs);
+          }	 
       ]]></add>
     </operation>
     </file>
 
     <file name="catalog/view/theme/*/template/product/category.tpl">
-        <operation>
-            <search position="before" index="1" error="log">
-            <![CDATA[<?php if ($product['rating']) { ?>]]>
-            </search>
-            <add>
-            <![CDATA[
-              <?php if ($yotpo_bottom_line_enabled == 'on') { ?>  
-              	<div class="rating">   	
-	              <div class="yotpo bottomline"
-	                data-appkey="<?php echo $appkey; ?>"
-	                data-domain="<?php echo $domain; ?>"
-	                data-product-id="<?php echo $product['product_id']; ?>"
-	                data-product-models=""
-	                data-name="<?php echo $product['name']; ?>"
-	                data-url="<?php echo urldecode($product['href']); ?>"
-	                data-image-url="<?php echo urldecode($product['thumb']); ?>"
-	                data-description="<?php echo $product['description']; ?>"
-	                data-bread-crumbs="<?php echo $yotpo_bread_crumbs; ?>"
-	                data-lang="<?php echo $language; ?>">
-	              </div>
-	            </div>  
-	          <?php } ?>    	            
-			]]>
-            </add>
-        </operation> 
-               <operation>
+        <operation info="Yotpo - add bottom line div">
             <search position="before" index="1" error="log">
             <![CDATA[<?php if ($product['rating']) { ?>]]>
             </search>
@@ -95,7 +75,7 @@
     </file>
         
     <file name="catalog/view/theme/*/template/product/product.tpl">   
-          <operation>
+          <operation info="Yotpo - set widget tab name">
               <search position="before" index="2" error="log">
               <![CDATA[<?php if ($review_status) { ?>]]>
               </search>
@@ -107,7 +87,7 @@
               ]]>
               </add>
           </operation>
-          <operation>
+          <operation info="Yotpo - set widget in tab">
               <search position="before" index="3" error="log">
               <![CDATA[<?php if ($review_status) { ?>]]>
               </search>
@@ -124,7 +104,7 @@
                     data-url="<?php echo $product_url; ?>"
                     data-image-url="<?php echo $product_image_url; ?>"
                     data-description="<?php echo $product_description; ?>"
-                    data-bread-crumbs="<?php echo $product_bread_crumbs; ?>"
+                    data-bread-crumbs="<?php echo $yotpo_bread_crumbs; ?>"
                     data-lang="<?php echo $language; ?>">
                   </div> 
                  </div> 
@@ -132,7 +112,7 @@
         ]]>
               </add>
           </operation> 
-          <operation>
+          <operation info="Yotpo - set widget in footer">
               <search position="before" index="1" error="log">
               <![CDATA[<div id="tabs" class="htabs"><a href="#tab-description"><?php echo $tab_description; ?></a>]]>
               </search>
@@ -161,35 +141,45 @@
  
 
     <file name="catalog/controller/product/product.php">
-      <operation>
-        <search position="after" index="1" error="log">
-          <![CDATA[public function index()]]>
+      <operation info="Yotpo - get widget product info">
+        <search position="before" index="1" error="log">
+          <![CDATA[$this->response->setOutput($this->render());]]>
         </search>
         <add><![CDATA[
             $this->data['appkey'] = $this->config->get('yotpo_appkey');
             $this->data['language'] = $this->config->get('yotpo_language');
             $this->data['domain'] = HTTP_SERVER;
             $this->data['product_id'] = $this->request->get['product_id'];
-            $this->load->model('catalog/product');  
-            $product = $this->model_catalog_product->getProduct($this->data['product_id']);
-            $this->load->model('tool/image');
-            $this->data['product_name'] = strip_tags(html_entity_decode($product['name']));
-            $this->data['product_description'] = strip_tags(html_entity_decode($product['description']));
+            $this->data['product_name'] = strip_tags(html_entity_decode($this->data['heading_title']));
+            $this->data['product_description'] = strip_tags(html_entity_decode($this->data['description']));
             $this->data['product_url'] = HTTP_SERVER . 'index.php?route=product/product&product_id=' . $this->data['product_id'];
- 	        if ($product['image']) {
-				$this->data['product_image_url'] = $this->model_tool_image->resize($product['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
-			} else {
-				$this->data['product_image_url'] = '';
-		  	}
+ 	       
+      	  	$yotpo_bread_crumbs = array();
+          	foreach ($this->data['breadcrumbs'] as $breadcrumb) {
+    	 		$yotpo_bread_crumbs[] = $breadcrumb['text'];
+    	  	}
+         	$this->data['yotpo_bread_crumbs'] = implode(';', $yotpo_bread_crumbs); 	       
+            $this->data['product_image_url'] = $this->data['thumb'];
+            
+            $product = $this->model_catalog_product->getProduct($this->data['product_id']);
                       
             $this->data['product_models'] = $product['model'];
-            $this->data['product_bread_crumbs'] = "";
-            $this->language->load('module/yotpo');
-            $this->data['yotpo_review'] = $this->language->get('yotpo_review');
+
             $this->data['yotpo_review_tab_name'] = $this->config->get('yotpo_review_tab_name');
             $this->data['yotpo_widget_location'] = $this->config->get('yotpo_widget_location');
         ]]></add>
       </operation>
     </file>
 
+    <file name="admin/controller/sale/order.php">
+      <operation info="Yotpo - call mail after purchase">
+        <search position="after" index="1" error="log">
+          <![CDATA[$this->model_sale_order->addOrderHistory($this->request->get['order_id'], $this->request->post);]]>
+        </search>
+        <add><![CDATA[
+			$this->load->model('tool/yotpo');
+			$this->model_tool_yotpo->make_single_map($this->request->get['order_id']);
+        ]]></add>
+      </operation>
+    </file>
 </modification>

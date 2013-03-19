@@ -11,7 +11,7 @@
 <div class="warning"><?php echo $error_warning; ?></div>
 <?php } ?>
 <script type="text/javascript" >
-	function sign_up(action) {
+	function submit_with_action(action) {
 		$("#yotpo_form").attr("action", action);
 		$('#yotpo_form').submit();
 	}
@@ -159,6 +159,12 @@
         </tr>               
       </table>
       
+      <?php if ($yotpo_show_past_orders_button) { ?>
+	      <div class="buttons">
+		      <a onclick='submit_with_action("<?php echo $past_orders; ?>");' class="button"><span><?php echo $entry_past_orders; ?></span></a>
+	      </div>      
+      <?php } ?>  
+          
 	  <div class="heading">
 	   <h2> <?php echo $heading_signup_title; ?></h2>
 	  </div>      
@@ -198,7 +204,7 @@
       </table>
 
       <div class="buttons">
-      	<a onclick='sign_up("<?php echo $sign_up; ?>");' class="button"><span><?php echo 'Sign up'; ?></span></a>
+      	<a onclick='submit_with_action("<?php echo $sign_up; ?>");' class="button"><span><?php echo $entry_sign_up_button; ?></span></a>
       	</div>            
     </form>
   </div>
