@@ -56,11 +56,11 @@ class ModelToolYotpo extends Model {
 			}
 		}
 	
-		$query = $this->db->query('SELECT order_id, firstname, lastname, email, date_added, currency_code, total 
-								   FROM '. DB_PREFIX. 'order 
-								   WHERE order_status_id IN ('.join(',', $accepted_status).') AND 
-								   date_added <  NOW() AND 
-								   DATE_SUB(NOW(), INTERVAL '.self::PAST_ORDERS_DAYS_BACK.' day) < date_added 
+		$query = $this->db->query('SELECT `order_id`, `firstname`, `lastname`, `email`, `date_added`, `currency_code`, `total` 
+								   FROM `'. DB_PREFIX. 'order` 
+								   WHERE `order_status_id` IN ('.join(',', $accepted_status).') AND 
+								   `date_added` <  NOW() AND 
+								   DATE_SUB(NOW(), INTERVAL '.self::PAST_ORDERS_DAYS_BACK.' day) < `date_added` 
 								   LIMIT 0,'.self::PAST_ORDERS_LIMIT.'');
 		$result = $query->rows;		
 		if (is_array($result))

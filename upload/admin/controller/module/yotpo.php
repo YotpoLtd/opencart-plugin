@@ -14,7 +14,7 @@ class ControllerModuleYotpo extends Controller {
 	
 	public function index() {   
 		//Load the language file for this module
-		$this->load->language('module/yotpo');
+		$this->language->load('module/yotpo');
 
 		//Set the title from the language file $_['heading_title'] string
 		$this->document->setTitle($this->language->get('heading_title'));
