@@ -55,15 +55,15 @@
             <![CDATA[
               <?php if ($yotpo_bottom_line_enabled == 'on') { ?>  
               	<div class="rating">   	
-	              <div class="yotpo bottomline"
+	              <div class="yotpo bottomLine"
 	                data-appkey="<?php echo $appkey; ?>"
 	                data-domain="<?php echo $domain; ?>"
 	                data-product-id="<?php echo $product['product_id']; ?>"
 	                data-product-models=""
-	                data-name="<?php echo $product['name']; ?>"
-	                data-url="<?php echo urldecode($product['href']); ?>"
+	                data-name="<?php echo strip_tags(html_entity_decode($product['name'])); ?>"
+	                data-url="<?php echo strip_tags(html_entity_decode($product['href'])); ?>"
 	                data-image-url="<?php echo urldecode($product['thumb']); ?>"
-	                data-description="<?php echo $product['description']; ?>"
+	                data-description="<?php echo strip_tags(html_entity_decode($product['description'])); ?>"
 	                data-bread-crumbs="<?php echo $yotpo_bread_crumbs; ?>"
 	                data-lang="<?php echo $language; ?>">
 	              </div>
