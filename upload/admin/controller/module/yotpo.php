@@ -54,7 +54,7 @@ class ControllerModuleYotpo extends Controller {
 				$this->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL'));
 			}
 			else {
-				$this->data['error_warning'] = $result['message'];
+				$this->data['yotpo_error_warning'] = $result['message'];
 			}			
 		}
 		
@@ -125,6 +125,20 @@ class ControllerModuleYotpo extends Controller {
 		
 		$this->data['yotpo_show_past_orders_button'] = empty($past_orders_enable) ? true : false;
 		
+		$this->data['yotpo_show_dashborad_link'] = empty($this->data['yotpo_appkey']) || empty($this->data['yotpo_secret']) ? false : true;
+		if($this->data['yotpo_show_dashborad_link']) {
+			$this->data['yotpo_dashborad_link'] = 'https://api.yotpo.com/users/b2blogin?app_key='.$this->data['yotpo_appkey'].'&secret='.$this->data['yotpo_secret'];
+			$this->data['yotpo_dashborad_link_text'] = $this->language->get('text_customize_widget');
+			$this->data['yotpo_dashborad_text'] = $this->language->get('text_yotpo_dashboard');
+		}
+		else {
+			$this->data['text_yotpo_missing_app_key'] = $this->language->get('text_yotpo_missing_app_key');
+			$this->data['text_yotpo_log_in'] = $this->language->get('text_yotpo_log_in');
+			$this->data['yotpo_login_link'] = 'https://www.yotpo.com/?login=true';
+		}
+		if($this->data['yotpo_widget_location'] == 'other') {
+			$this->data['text_yotpo_widget_location_other'] = $this->language->get('text_yotpo_widget_location_other');
+		}		
 		//Choose which template file will be used to display this request.
 		$this->template = 'module/yotpo.tpl';
 		$this->children = array(

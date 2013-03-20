@@ -7,8 +7,8 @@
   <?php } ?>
 </div>
 
-<?php if ($error_warning) { ?>
-<div class="warning"><?php echo $error_warning; ?></div>
+<?php if (!empty($yotpo_error_warning)) { ?>
+<div class="warning"><?php echo $yotpo_error_warning; ?></div>
 <?php } ?>
 <script type="text/javascript" >
 	function submit_with_action(action) {
@@ -24,6 +24,12 @@
     <div class="heading">
    	 <h2> <?php echo $heading_settings_title; ?></h2>
   	</div>
+  	<?php if ($yotpo_show_dashborad_link) { ?>    
+       <br><br><?php echo $yotpo_dashborad_link_text; ?><a href="<?php echo $yotpo_dashborad_link; ?>" target="_blank"><?php echo $yotpo_dashborad_text; ?></a><br>
+    <?php } ?> 
+  	<?php if (!empty($text_yotpo_missing_app_key)) { ?>    
+       <br><br><?php echo $text_yotpo_missing_app_key; ?><a href="<?php echo $yotpo_login_link; ?>" target="_blank"><?php echo $text_yotpo_log_in; ?></a><br>
+    <?php } ?>   	
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="yotpo_form">
       <table class="form">
         <tr>
@@ -158,7 +164,25 @@
         	</td>        	
         </tr>               
       </table>
-      
+        <?php if($yotpo_widget_location == 'other' ) { ?>
+			<div style="color: #8A8A8A"> <?php echo $text_yotpo_widget_location_other; ?><br> <br> 
+				<div style="font-family: courier,monospace;font-weight: lighter;background: rgb(236, 236, 236);	padding: 15px;font-style: italic;">
+				&lt;div class=&quot;yotpo reviews&quot; <br>
+				data-appkey=&quot;&lt;?php echo $appkey;?&gt;&quot;<br>
+				data-domain=&quot;&lt;?php echo $domain; ?&gt;&quot;<br>
+				data-product-id=&quot;&lt;?php echo $product_id; ?&gt;&quot;<br>
+				data-product-models=&quot;&lt;?php echo $product_models; ?&gt;&quot; <br>
+				data-name=&quot;&lt;?php echo $product_name; ?&gt;&quot; <br>
+				data-url=&quot;&lt;?php echo $product_url; ?&gt;&quot;<br>
+				data-image-url=&quot;&lt;?php echo $product_image_url; ?&gt;&quot;<br>
+				data-description=&quot;&lt;?php echo $product_description; ?&gt;&quot;<br>
+				data-bread-crumbs=&quot;&lt;?php echo $product_bread_crumbs; ?&gt;&quot;<br>
+				data-lang=&quot;&lt;?php echo $language; ?&gt;&quot;&gt;<br>
+				&lt;/div&gt;
+				</div>
+			</div>
+			<br>
+        <?php } ?>       
       <?php if ($yotpo_show_past_orders_button) { ?>
 	      <div class="buttons">
 		      <a onclick='submit_with_action("<?php echo $past_orders; ?>");' class="button"><span><?php echo $entry_past_orders; ?></span></a>

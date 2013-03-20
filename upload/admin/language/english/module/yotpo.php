@@ -9,6 +9,11 @@ $_['text_module']         = 'Modules';
 $_['text_success']         = 'Settings saved';
 $_['text_signup_success']         = 'Account successfully created';
 $_['text_past_orders_success']         = 'Past orders sent successfully';
+$_['text_customize_widget']         = 'To customize the look and feel of the widget, and to edit your Mail After Purchase settings, just head to the';
+$_['text_yotpo_dashboard']         = 'Yotpo Dashboard.';
+$_['text_yotpo_missing_app_key']         = 'Set your API key in order the Yotpo module to work correctly, You can either sign up below, or ';
+$_['text_yotpo_log_in']         = 'Log in';
+$_['text_yotpo_widget_location_other']         = 'In order to locate the widget in a custom position, please open the "root" folder, then enter the "themes" library. Locate the specific theme you would like the widget to show up on, and in this specific themes folder, locate the file "product.tpl". Add the code here, wherever you would like it placed.';
 
 // Entry
 $_['entry_appkey']        = 'Api Appkey:';

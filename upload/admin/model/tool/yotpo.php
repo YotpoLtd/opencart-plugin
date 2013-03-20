@@ -88,11 +88,12 @@ class ModelToolYotpo extends Model {
 	public function makePastOrdersRequest($data, $app_key, $secret_token)
 	{
 		$token = $this->grantOauthAccess($app_key, $secret_token);
-		if (!empty($token))
+		if (!empty($token) && is_string($token))
 		{
 			$data['utoken'] = $token;
 		    return $this->makePostRequest(self::YOTPO_API_URL.'/apps/'.$app_key.'/purchases/mass_create', $data);
 		}
+		return $token;
 	}
 	
 	public function signUp($params)	{
@@ -134,7 +135,7 @@ class ModelToolYotpo extends Model {
 		if (!empty($token))
 			return $this->makePostRequest(self::YOTPO_API_URL . '/apps/' . $app_key .'/account_platform', array('utoken' => $token,
 			'account_platform' => array('platform_type_id' => 8, 'shop_domain' => $shop_url)));
-		return array('status_message' => 'Could not create account correctly, authorization failed', 'status_code' => '401');
+		return array('status' => array('message' => 'Could not create account correctly, authorization failed','code' => '401'));
 	}
 		
 	public function makePostRequest($url, $data)
@@ -170,7 +171,7 @@ class ModelToolYotpo extends Model {
 		}
 		catch(YotpoOAuthException2 $e)
 		{
-			return null;
+			return array('status' => array('message' => 'Authorization failed','code' => '401'));
 		}
 	}
 
@@ -193,7 +194,7 @@ class ModelToolYotpo extends Model {
 
 			if (in_array($order['order_status_id'], $accepted_status)) {
 				$token = $this->grantOauthAccess($app_key, $secret_token);
-				if(!empty($token)) {
+				if(!empty($token) && is_string($token)) {
 					$data = $this->get_map_data($order);
 					$data['utoken'] = $token;
 					$this->makePostRequest(self::YOTPO_API_URL . '/apps/' . $app_key . "/purchases/", $data);
