@@ -11,8 +11,8 @@ $_['text_signup_success']         = 'Account successfully created';
 $_['text_past_orders_success']         = 'Past orders sent successfully';
 $_['text_customize_widget']         = 'To customize the look and feel of the widget, and to edit your Mail After Purchase settings, just head to the ';
 $_['text_yotpo_dashboard']         = 'Yotpo Dashboard.';
-$_['text_yotpo_missing_app_key']         = 'Set your API key in order for the Yotpo module to work correctly. To get an API key you can either SIGN UP below, or ';
-$_['text_yotpo_log_in']         = 'Log in';
+$_['text_yotpo_missing_app_key']         = 'Before you can use the module, please signup.<br> If you already have a Yotpo account, just copy your API key and secret into the fields below. You can find these ';
+$_['text_yotpo_log_in']         = 'here';
 $_['text_yotpo_widget_location_other']         = 'In order to locate the widget in a custom position, please open the "root" folder, then enter the "themes" library. Locate the specific theme you would like the widget to show up on, and in this specific themes folder, locate the file "product.tpl". Add the code here, wherever you would like it placed.';
 
 // Entry
@@ -23,6 +23,9 @@ $_['entry_review_tab_name']      = 'Select widget tab name:';
 $_['entry_widget_location']      = 'Select widget location:';
 $_['entry_bottom_line']      = 'Enable bottom line:';
 $_['entry_past_orders']      = 'Submit past orders';
+$_['entry_widget_location_other']         = 'Other (click save to see instructions)';
+$_['entry_widget_location_tab']         = 'Tab';
+$_['entry_widget_location_footer']         = 'Footer';
 
 $_['entry_user_name']        = 'User name:';
 $_['entry_password']        = 'Password:';

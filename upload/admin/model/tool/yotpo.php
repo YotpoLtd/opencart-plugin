@@ -45,17 +45,7 @@ class ModelToolYotpo extends Model {
 
 	private function getPastOrders()
 	{	
-		$this->load->model('localisation/order_status');
-		$order_statuses = $this->model_localisation_order_status->getOrderStatuses();
-
-		foreach ($order_statuses as $status) {
-			if ($status['name'] == 'Shipped' ||
-			$status['name'] == 'Complete') {
-
-				$accepted_status[] = $status['order_status_id'];
-			}
-		}
-	
+		$accepted_status = $this->getAccaptedStatuses();
 		$query = $this->db->query('SELECT `order_id`, `firstname`, `lastname`, `email`, `date_added`, `currency_code`, `total` 
 								   FROM `'. DB_PREFIX. 'order` 
 								   WHERE `order_status_id` IN ('.join(',', $accepted_status).') AND 
@@ -85,6 +75,21 @@ class ModelToolYotpo extends Model {
 		return null;
 	}
 
+	private function getAccaptedStatuses() 
+	{
+		$this->load->model('localisation/order_status');
+		$order_statuses = $this->model_localisation_order_status->getOrderStatuses();
+		$accepted_status = array();
+		foreach ($order_statuses as $status) {
+			if ($status['name'] == 'Shipped' ||
+			$status['name'] == 'Complete') {
+	
+				$accepted_status[] = $status['order_status_id'];
+			}
+		}
+		return $accepted_status;
+	}
+	
 	public function makePastOrdersRequest($data, $app_key, $secret_token)
 	{
 		$token = $this->grantOauthAccess($app_key, $secret_token);
@@ -181,16 +186,7 @@ class ModelToolYotpo extends Model {
 		if(!empty($app_key) && !empty($secret_token)) {
 			$this->load->model('sale/order');
 			$order = $this->model_sale_order->getOrder($order_id);
-			$this->load->model('localisation/order_status');
-			$order_statuses = $this->model_localisation_order_status->getOrderStatuses();
-
-			foreach ($order_statuses as $status) {
-				if ($status['name'] == 'Shipped' ||
-				$status['name'] == 'Complete') {
-
-					$accepted_status[] = $status['order_status_id'];
-				}
-			}
+			$accepted_status = $this->getAccaptedStatuses();
 
 			if (in_array($order['order_status_id'], $accepted_status)) {
 				$token = $this->grantOauthAccess($app_key, $secret_token);

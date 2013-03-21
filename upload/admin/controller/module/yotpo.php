@@ -1,12 +1,10 @@
 <?php
 class ControllerModuleYotpo extends Controller {
-	const YOTPO_API_URL = 'https://api.yotpo.com';
-	const HTTP_REQUEST_TIMEOUT = 30;
-	const YOTPO_OAUTH_TOKEN_URL = 'https://api.yotpo.com/oauth/token';
 	private $error = array(); 
 	private static $language_assigns = array('heading_title','heading_settings_title','heading_signup_title','button_save','button_cancel',
 										 'entry_appkey','entry_secret','entry_language','entry_review_tab_name','entry_widget_location',
-										 'entry_user_name','entry_password','entry_confirm_password','entry_email','entry_bottom_line','entry_past_orders','entry_sign_up_button');
+										 'entry_user_name','entry_password','entry_confirm_password','entry_email','entry_bottom_line','entry_past_orders','entry_sign_up_button',
+										 'entry_widget_location_other','entry_widget_location_tab','entry_widget_location_footer');
 	private static $error_assigns = array('error_appkey','error_secret','error_user_name','error_email','error_password',
 									 	  'error_confirm_password','error_warning');
 	private static $config_assigns = array('yotpo_appkey','yotpo_secret','yotpo_language','yotpo_user_name','yotpo_email',
