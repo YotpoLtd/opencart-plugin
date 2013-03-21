@@ -21,6 +21,8 @@
     <h1><img src="view/image/module.png" alt="" /> <?php echo $heading_title; ?></h1>
     <div class="buttons"><a onclick="$('#yotpo_form').submit();" class="button"><span><?php echo $button_save; ?></span></a><a onclick="location = '<?php echo $cancel; ?>';" class="button"><span><?php echo $button_cancel; ?></span></a></div>
   </div><br>
+  	
+    <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="yotpo_form">
     
   <?php if(empty($yotpo_appkey) && empty($yotpo_secret)) { ?> 
 	  <div class="heading">
@@ -68,14 +70,13 @@
       	<a onclick='submit_with_action("<?php echo $sign_up; ?>");' class="button"><span><?php echo $entry_sign_up_button; ?></span></a>
       </div><br>  
 	<?php } ?>
-	                  
+	    
     <div class="heading">
    	 <h2> <?php echo $heading_settings_title; ?></h2>
   	</div>
   	<?php if ($yotpo_show_dashborad_link) { ?>    
        <br><br><strong><?php echo $yotpo_dashborad_link_text; ?><a href="<?php echo $yotpo_dashborad_link; ?>" target="_blank"><?php echo $yotpo_dashborad_text; ?></a><br></strong>
-    <?php } ?>    	
-    <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="yotpo_form">
+    <?php } ?>     
       <table class="form">
         <tr>
           <td><?php echo $entry_appkey; ?></td>
