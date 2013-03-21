@@ -25,10 +25,10 @@
    	 <h2> <?php echo $heading_settings_title; ?></h2>
   	</div>
   	<?php if ($yotpo_show_dashborad_link) { ?>    
-       <br><br><?php echo $yotpo_dashborad_link_text; ?><a href="<?php echo $yotpo_dashborad_link; ?>" target="_blank"><?php echo $yotpo_dashborad_text; ?></a><br>
+       <br><br><strong><?php echo $yotpo_dashborad_link_text; ?><a href="<?php echo $yotpo_dashborad_link; ?>" target="_blank"><?php echo $yotpo_dashborad_text; ?></a><br></strong>
     <?php } ?> 
   	<?php if (!empty($text_yotpo_missing_app_key)) { ?>    
-       <br><br><?php echo $text_yotpo_missing_app_key; ?><a href="<?php echo $yotpo_login_link; ?>" target="_blank"><?php echo $text_yotpo_log_in; ?></a><br>
+       <br><br><strong><?php echo $text_yotpo_missing_app_key; ?><a href="<?php echo $yotpo_login_link; ?>" target="_blank"><?php echo $text_yotpo_log_in; ?></a><br></strong>
     <?php } ?>   	
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="yotpo_form">
       <table class="form">

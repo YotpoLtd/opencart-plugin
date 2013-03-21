@@ -14,7 +14,7 @@ class ModelToolYotpo extends Model {
 		    $data["email"] = $order['email'];
 		    $data["customer_name"] = $order['firstname'] . ' ' . $order['lastname'];
 		    $data["order_id"] = $order['order_id'];
-		    $data['platform'] = 'prestashop';
+		    $data['platform'] = 'opencart';
 		    $data["currency_iso"] = $order['currency_code'];
 
 		    $products_arr = array();
@@ -78,7 +78,7 @@ class ModelToolYotpo extends Model {
 			{
 				$data[$index] = array();
 				$data[$index]['orders'] = $bulk;
-				$data[$index]['platform'] = 'prestashop';			
+				$data[$index]['platform'] = 'opencart';			
 			}
 			return $data;
 		}
@@ -134,7 +134,7 @@ class ModelToolYotpo extends Model {
 		$token = $this->grantOauthAccess($app_key, $secret_token);
 		if (!empty($token))
 			return $this->makePostRequest(self::YOTPO_API_URL . '/apps/' . $app_key .'/account_platform', array('utoken' => $token,
-			'account_platform' => array('platform_type_id' => 8, 'shop_domain' => $shop_url)));
+			'account_platform' => array('platform_type_id' => 10, 'shop_domain' => $shop_url)));
 		return array('status' => array('message' => 'Could not create account correctly, authorization failed','code' => '401'));
 	}
 		
