@@ -265,5 +265,14 @@
 			$this->model_tool_yotpo->make_single_map($this->request->get['order_id']);
         ]]></add>
       </operation>
+      <operation info="Yotpo - call mail after purchase">
+        <search position="before" index="1" error="log">
+          <![CDATA[$this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);]]>
+        </search>
+        <add><![CDATA[
+      $this->load->model('tool/yotpo');
+      $this->model_tool_yotpo->make_single_map($this->request->get['order_id']);
+        ]]></add>
+      </operation>
     </file>
 </modification>
