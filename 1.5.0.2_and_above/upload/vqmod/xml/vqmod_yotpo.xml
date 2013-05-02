@@ -275,4 +275,48 @@
         ]]></add>
       </operation>
     </file>
+    
+    <file name="catalog/controller/checkout/success.php">
+      <operation info="Yotpo - Set conversion parameters">
+        <search position="after" index="1" error="log">
+          <![CDATA[public function index() {]]>
+        </search>
+        <add><![CDATA[    
+        	$app_key = $this->config->get('yotpo_appkey');    	
+        	if (isset($this->session->data['order_id']) && !empty($app_key)) {      	
+				$this->load->model('account/order');				
+				$orders_total = $this->model_account_order->getOrderTotals($this->session->data['order_id']);
+				$total = null;
+				foreach ($orders_total as $order_total) {	
+					if ($order_total['code'] == 'total') {
+						
+						$total = $order_total['value'];
+					}
+				}
+				$conversion_params = "app_key="			.$app_key.
+						 			 "&order_id="		.$this->session->data['order_id'].
+						 			 "&order_amount="	.$total.
+						 			 "&order_currency="	.$this->session->data['currency'];
+				$conversion_url = "https://api.yotpo.com/conversion_tracking.gif?$conversion_params";
+				$this->data['yotpoConversionUrl'] = $conversion_url;
+			}
+        ]]></add>
+      </operation>
+    </file>
+    
+    <file name="catalog/view/theme/*/template/common/success.tpl">
+      <operation info="Yotpo - Call conversion">
+        <search position="after" index="1" error="log">
+          <![CDATA[<div id="content">]]>
+        </search>
+        <add><![CDATA[
+        		<?php if(isset($yotpoConversionUrl)) { ?>
+					<img 
+					   	src="<?php echo $yotpoConversionUrl ?>"
+						width="1"
+						height="1"></img>
+				<?php } ?>
+        ]]></add>
+      </operation>
+    </file>
 </modification>
