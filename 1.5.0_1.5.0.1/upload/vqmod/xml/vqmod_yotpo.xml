@@ -1,6 +1,6 @@
 <modification>
     <id>Yotpo www.yotpo.com</id>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
 		   <vqmver>2.2.1</vqmver>
        <author>Yotpo</author>	
 
@@ -148,7 +148,7 @@
               </add>
           </operation>
           <operation info="Yotpo - set widget in tab">
-              <search position="after" index="1" error="log">
+              <search position="before" index="1" error="log">
               <![CDATA[<div id="tab-description"]]>
               </search>
               <add>
