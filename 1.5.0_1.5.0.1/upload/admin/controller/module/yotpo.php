@@ -24,7 +24,8 @@ class ControllerModuleYotpo extends Controller {
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$result = null;
 			$success_text = $this->language->get('text_success');
-			if($this->request->request['action'] == 'signup') {
+			$is_custome_action = array_key_exists('action',$this->request->request);
+			if($is_custome_action && $this->request->request['action'] == 'signup') {
 				$this->load->model('tool/yotpo');
 				$result = $this->model_tool_yotpo->signUp($this->request->post);
 				if(isset($result['appkey']) && isset($result['secret'])) {
@@ -34,7 +35,7 @@ class ControllerModuleYotpo extends Controller {
 				}
 			}
 			
-			elseif ($this->request->request['action'] == 'past_orders') {
+			elseif ($is_custome_action && $this->request->request['action'] == 'past_orders') {
 				$past_orders_sent = $this->config->get('yotpo_past_order_sent');
 				if(empty($past_orders_sent)) {	
 					$this->request->post['yotpo_past_order_sent'] = 'true';

@@ -19,3 +19,9 @@ Alon
 ----
 Alon
 1) Bug fix, in some of the costume themes if the widget was on a tab, so pressing the tab didn't make the widget appear.
+
+2013-05-21
+----
+Alon
+1) Bug fix, check if index exist in array, in some cases if the index wasn't there it caused some users to get "Cannot modify header information - headers already sent by" warnning 
+   at the admin site after saving. 
