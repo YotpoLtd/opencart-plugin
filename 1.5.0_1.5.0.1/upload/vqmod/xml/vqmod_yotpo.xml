@@ -1,6 +1,6 @@
 <modification>
     <id>Yotpo www.yotpo.com</id>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
 		   <vqmver>2.2.1</vqmver>
        <author>Yotpo</author>	
 
@@ -40,11 +40,11 @@
       </search>
       <add><![CDATA[
           $yotpo_bottom_line_enabled = $this->config->get('yotpo_bottom_line_enabled');
+          $this->data['yotpo_bottom_line_enabled'] = $yotpo_bottom_line_enabled;
       	  if($yotpo_bottom_line_enabled) { 
         	  $this->data['appkey'] = $this->config->get('yotpo_appkey');
           	$this->data['language'] = $this->config->get('yotpo_language');
-          	$this->data['domain'] = HTTP_SERVER;
-          	$this->data['yotpo_bottom_line_enabled'] = $yotpo_bottom_line_enabled;
+          	$this->data['domain'] = HTTP_SERVER;          	
           }
       ]]></add>
     </operation>
@@ -99,11 +99,11 @@
 	      </search>
 	      <add><![CDATA[
 	          $yotpo_bottom_line_enabled = $this->config->get('yotpo_bottom_line_enabled');
+	          $this->data['yotpo_bottom_line_enabled'] = $yotpo_bottom_line_enabled;
 	      	  if($yotpo_bottom_line_enabled) { 
 	        	  $this->data['appkey'] = $this->config->get('yotpo_appkey');
 	          	$this->data['language'] = $this->config->get('yotpo_language');
 	          	$this->data['domain'] = HTTP_SERVER;
-	          	$this->data['yotpo_bottom_line_enabled'] = $yotpo_bottom_line_enabled;
 	          }
 	      ]]></add>
 	    </operation>

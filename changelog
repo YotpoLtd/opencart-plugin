@@ -25,3 +25,8 @@ Alon
 Alon
 1) Bug fix, check if index exist in array, in some cases if the index wasn't there it caused some users to get "Cannot modify header information - headers already sent by" warnning 
    at the admin site after saving. 
+   
+2013-06-06
+----
+Alon
+1) Bug fix, when bottom line was disabled there was a warnning at the web page source code.  
