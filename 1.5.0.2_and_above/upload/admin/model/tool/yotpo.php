@@ -52,6 +52,7 @@ class ModelToolYotpo extends Model {
 								   `date_added` <  NOW() AND 
 								   DATE_SUB(NOW(), INTERVAL '.self::PAST_ORDERS_DAYS_BACK.' day) < `date_added` 
 								   LIMIT 0,'.self::PAST_ORDERS_LIMIT.'');
+	
 		$result = $query->rows;		
 		if (is_array($result))
 		{
@@ -82,11 +83,14 @@ class ModelToolYotpo extends Model {
 		$accepted_status = array();
 		foreach ($order_statuses as $status) {
 			if ($status['name'] == 'Shipped' ||
-			$status['name'] == 'Complete') {
-	
+			$status['name'] == 'Complete') {	
 				$accepted_status[] = $status['order_status_id'];
 			}
 		}
+		$complete_status_id = $this->config->get('config_complete_status_id');
+		if(!empty($complete_status_id) && !in_array($complete_status_id, $accepted_status)) {
+			$accepted_status[] = $complete_status_id;
+		}		
 		return $accepted_status;
 	}
 	

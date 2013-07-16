@@ -30,3 +30,8 @@ Alon
 ----
 Alon
 1) Bug fix, when bottom line was disabled there was a warnning at the web page source code.  
+
+2013-07-16
+----
+Alon
+1) Bug fix, when opencart is installed in language other then english then there is no order accapted status for the MAP or past orders meanning no MAP will be sent!   
