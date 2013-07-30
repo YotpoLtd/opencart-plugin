@@ -212,9 +212,9 @@ class ModelToolYotpo extends Model {
 			if (!is_null($post_bulk))
 			{
 				$response = $this->makePastOrdersRequest($post_bulk, $api_key, $secret_token);
-				if ($response['status']['code'] != 200 && is_null($message))
+				if ($response['code'] != 200 && is_null($message))
 				{
-					$message = 	$response['status']['message'];
+					$message = 	empty($response['message']) ? 'An error occurred' : $response['message'];
 				}
 			}
 			return is_null($message) ? null : array('message' => $message);
