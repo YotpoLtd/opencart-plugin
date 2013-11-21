@@ -39,4 +39,14 @@ Alon
 2013-07-30
 ----
 Alon
-1) Bug fix, warnning when parsing response from api.   
+1) Bug fix, warnning when parsing response from api.
+
+2013-09-22
+----
+Alon
+1) Remove OAuth lib.    
+
+2013-11-21
+----
+Alon
+1) Add version to settings page

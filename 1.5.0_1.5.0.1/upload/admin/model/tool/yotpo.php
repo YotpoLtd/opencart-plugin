@@ -164,23 +164,9 @@ class ModelToolYotpo extends Model {
 	
 	public function grantOauthAccess($app_key, $secret_token)
 	{
-		include_once(DIR_SYSTEM . 'library/oauth-php/library/YotpoOAuthStore.php');
-		include_once(DIR_SYSTEM . 'library/oauth-php/library/YotpoOAuthRequester.php');
-		$yotpo_options = array('consumer_key' => $app_key, 'consumer_secret' => $secret_token,
-		'client_id' => $app_key, 'client_secret' => $secret_token, 'grant_type' => 'client_credentials');
-    
-		YotpoOAuthStore::instance('2Leg', $yotpo_options);
-		try
-		{
-			$request = new YotpoOAuthRequester(self::YOTPO_OAUTH_TOKEN_URL, 'POST', $yotpo_options);         
-			$result = $request->doRequest(0);
-			$body = json_decode($result['body'],true);
-			return empty($body['access_token']) ? null : $body['access_token'];
-		}
-		catch(YotpoOAuthException2 $e)
-		{
-			return array('status' => array('message' => 'Authorization failed','code' => '401'));
-		}
+		$yotpo_options = array('client_id' => $app_key, 'client_secret' => $secret_token, 'grant_type' => 'client_credentials');
+		$result = $this->makePostRequest(self::YOTPO_OAUTH_TOKEN_URL, $yotpo_options, self::HTTP_REQUEST_TIMEOUT, false);				
+		return isset($result['access_token']) ? $result['access_token'] : null;
 	}
 
 	public function make_single_map($order_id) {

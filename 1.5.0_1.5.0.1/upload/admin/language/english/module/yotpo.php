@@ -33,6 +33,8 @@ $_['entry_confirm_password']      = 'Confirm password:';
 $_['entry_email']      = 'E-mail:';
 $_['entry_sign_up_button']      = 'Sign up';
 
+$_['entry_yotpo_version']      = 'version 1.0.6';
+
 // Error
 $_['error_appkey']        = 'Appkey Required';
 $_['error_secret']        = 'Secret Required';

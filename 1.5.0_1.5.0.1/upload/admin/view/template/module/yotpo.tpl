@@ -74,6 +74,9 @@
     <div class="heading">
    	 <h2> <?php echo $heading_settings_title; ?></h2>
   	</div>
+  	<div class="version" style="color:#888888;">
+		<span><?php echo $entry_yotpo_version; ?> </span>
+	</div>
   	<?php if ($yotpo_show_dashborad_link) { ?>    
        <br><br><strong><?php echo $yotpo_dashborad_link_text; ?><a href="<?php echo $yotpo_dashborad_link; ?>" target="_blank"><?php echo $yotpo_dashborad_text; ?></a><br></strong>
     <?php } ?>     
