@@ -50,3 +50,4 @@ Alon
 ----
 Alon
 1) Add version to settings page
+2) Load yQuery asynchronously

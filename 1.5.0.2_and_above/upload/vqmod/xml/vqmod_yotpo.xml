@@ -11,7 +11,9 @@
         </search>
         <add>
         	<![CDATA[
-        		<script type="text/javascript" src="https://www.yotpo.com/js/yQuery.js"></script>
+        		<script type="text/javascript">
+        		(function(){function e(){var e=document.createElement('script');e.type='text/javascript',e.async=!0,e.src='//staticwww.yotpo.com/js/yQuery.js';var t=document.getElementsByTagName('script')[0];t.parentNode.insertBefore(e,t)}window.attachEvent?window.attachEvent('onload',e):window.addEventListener('load',e,!1)})();
+        		</script>
        			<?php if(isset($yotpo_app_key) && is_string($yotpo_app_key)) {?>
        			 <script type="text/javascript">
        			 	var yotpo_app_key = "<?php echo $yotpo_app_key; ?>"; 
