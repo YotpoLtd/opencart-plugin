@@ -1,5 +1,6 @@
 <?php
 // Heading
+$_['heading_title']        = 'Yotpo';
 $_['heading_settings_title']    	  = 'Settings';
 $_['heading_signup_title']    	  = 'Sign up';
 
