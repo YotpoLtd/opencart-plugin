@@ -44,6 +44,7 @@ $_['error_password']        = 'Password must be at least 6 characters';
 $_['error_confirm_password']        = 'Passwords are not identical';
 $_['error_email_in_use']        = 'This e-mail address is already taken.';
 $_['error_permission'] 	  = 'Warning: You do not have permission to modify module My Module!';
+$_['error_b2c_user']     = 'We have sent you a confirmation email. Please check and click on the link to get your app key and secret token to fill out below.';
 
 //Default values
 $_['yotpo_default_reviews_tab_name']      = 'Reviews';

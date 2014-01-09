@@ -1,7 +1,7 @@
 <?php
 class ModelToolYotpo extends Model {
 	const YOTPO_API_URL = 'https://api.yotpo.com';
-	const HTTP_REQUEST_TIMEOUT = 30;
+	const HTTP_REQUEST_TIMEOUT = 3;
 	const YOTPO_OAUTH_TOKEN_URL = 'https://api.yotpo.com/oauth/token';
 	const PAST_ORDERS_DAYS_BACK = 90;
 	const PAST_ORDERS_LIMIT = 10000;
@@ -108,24 +108,57 @@ class ModelToolYotpo extends Model {
 	public function signUp($params)	{
 		$is_mail_valid = $this->checkeMailAvailability($params['yotpo_email']);
 		if ($is_mail_valid['status']['code'] == 200 && $is_mail_valid['response']['available'] == true) {
-			$registerResponse = $this->register($params['yotpo_email'], $params['yotpo_user_name'], $params['yotpo_password'], HTTP_CATALOG);
+            $response = $this->check_if_b2c_user($params['yotpo_email']);
+            if (empty($response['response']['data'])){
+                $registerResponse = $this->register($params['yotpo_email'], $params['yotpo_user_name'], $params['yotpo_password'], HTTP_CATALOG);
 
-			if ($registerResponse['status']['code'] == 200) {
-				$app_key = $registerResponse['response']['app_key'];
-				$secret = $registerResponse['response']['secret'];
-				$accountPlatformResponse = $this->createAcountPlatform($app_key, $secret, HTTP_CATALOG);
-				if ($accountPlatformResponse['status']['code'] == 200)
-				{
-					return array('appkey' => $app_key, 'secret' => $secret);
-				}
-				else
-				return array('message' => $accountPlatformResponse['status']['message']);
-			}
+                if ($registerResponse['status']['code'] == 200) {
+                    $app_key = $registerResponse['response']['app_key'];
+                    $secret = $registerResponse['response']['secret'];
+                    $accountPlatformResponse = $this->createAcountPlatform($app_key, $secret, HTTP_CATALOG);
+                    if ($accountPlatformResponse['status']['code'] == 200)
+                    {
+                        return array('appkey' => $app_key, 'secret' => $secret);
+                    }
+                    else
+                    return array('message' => $accountPlatformResponse['status']['message']);
+                }
+            } else {
+                $id = $response['response']['data']['id'];
+                $data = array(
+                    'password'=> $params['yotpo_password'],
+                    'display_name'=> $params['yotpo_user_name'],
+                    'account' => array(
+                        'url' => HTTP_CATALOG,
+                        'custom_platform_name'=>null,
+                        'install_step'=>6,
+                        'account_platform' => array(
+                            'shop_domain'=> HTTP_CATALOG,
+                            'platform_type_id'=>10,
+                        )
+                    )
+                );
+                $this->create_user_migration($id,$data);
+                $this->notify_user_migration($id);
+                return array('message' => $this->language->get('error_b2c_user'));
+            }
 		}
 		else {
 			return $is_mail_valid['status']['code'] == 200 ? array('message' => $this->language->get('error_email_in_use')) : array('message' => $is_mail_valid['status']['message']);
 		}
 	}
+
+    public function check_if_b2c_user($email) {
+        return $this->makeGetRequest(self::YOTPO_API_URL . '/users/find_by_type_and_email.json', array('type' => 'b2c', 'email' => $email));
+    }
+
+    public function create_user_migration($id, array $data) {
+        return $this->makePostRequest(self::YOTPO_API_URL . '/users/'.$id.'/migration', array('data' => $data));
+    }
+
+    public function notify_user_migration($id) {
+        return $this->makeGetRequest(self::YOTPO_API_URL . '/users/'.$id.'/migration/notify');
+    }
 
 	public function checkeMailAvailability($email) {
 		return $this->makePostRequest(self::YOTPO_API_URL . '/apps/check_availability',
@@ -162,6 +195,24 @@ class ModelToolYotpo extends Model {
 		curl_close ($ch);
 		return json_decode($result, true);
 	}
+
+    public function makeGetRequest($url, $vars = array())
+    {
+        if (!empty($vars)) {
+            $url .= (stripos($url, '?') !== false) ? '&' : '?';
+            $url .= (is_string($vars)) ? $vars : http_build_query($vars, '', '&');
+        }
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_HTTPGET, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,self::HTTP_REQUEST_TIMEOUT);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $result = curl_exec($ch);
+        curl_close ($ch);
+        return json_decode($result, true);
+    }
 
 	public function grantOauthAccess($app_key, $secret_token)
 	{
