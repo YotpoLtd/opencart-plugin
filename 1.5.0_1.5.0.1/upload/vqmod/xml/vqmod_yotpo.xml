@@ -253,6 +253,7 @@
 
             $this->data['yotpo_review_tab_name'] = $this->config->get('yotpo_review_tab_name');
             $this->data['yotpo_widget_location'] = $this->config->get('yotpo_widget_location');
+			$this->data['yotpo_bottom_line_enabled'] = $this->config->get('yotpo_bottom_line_enabled');
         ]]></add>
       </operation>
     </file>

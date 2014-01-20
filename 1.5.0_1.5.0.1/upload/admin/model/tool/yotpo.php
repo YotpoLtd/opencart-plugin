@@ -77,20 +77,15 @@ class ModelToolYotpo extends Model {
 
 	private function getAccaptedStatuses() 
 	{
-		$this->load->model('localisation/order_status');
-		$order_statuses = $this->model_localisation_order_status->getOrderStatuses();
-		$accepted_status = array();
-		foreach ($order_statuses as $status) {
-			if ($status['name'] == 'Shipped' ||
-			$status['name'] == 'Complete') {	
-				$accepted_status[] = $status['order_status_id'];
-			}
+		$result = array();
+		$accepted_status = $this->config->get('yotpo_map_status');  
+		if(is_null($accepted_status) || empty($accepted_status)) {
+			array_push($result, $this->config->get('config_complete_status_id'));
 		}
-		$complete_status_id = $this->config->get('config_complete_status_id');
-		if(!empty($complete_status_id) && !in_array($complete_status_id, $accepted_status)) {
-			$accepted_status[] = $complete_status_id;
+		else {
+			array_push($result, $accepted_status);
 		}
-		return $accepted_status;
+		return $result;
 	}
 	
 	public function makePastOrdersRequest($data, $app_key, $secret_token)

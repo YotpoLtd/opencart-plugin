@@ -117,82 +117,12 @@
 					</td>
 				</tr>
 				<tr>
-					<td><?php echo $entry_language; ?></td>
-					<td><select name="yotpo_language">
-					<?php if($yotpo_language == 'en' ) { ?>
-							<option value="en" selected="selected">English</option>
-							<?php } else { ?>
-							<option value="en">English</option>
-							<?php } ?>
-
-							<?php if($yotpo_language == 'de' ) { ?>
-							<option value="de" selected="selected">German</option>
-							<?php } else { ?>
-							<option value="de">German</option>
-							<?php } ?>
-
-							<?php if($yotpo_language == 'es' ) { ?>
-							<option value="es" selected="selected">Spanish</option>
-							<?php } else { ?>
-							<option value="es">Spanish</option>
-							<?php } ?>
-
-							<?php if($yotpo_language == 'fr' ) { ?>
-							<option value="fr" selected="selected">French</option>
-							<?php } else { ?>
-							<option value="fr">French</option>
-							<?php } ?>
-
-							<?php if($yotpo_language == 'he' ) { ?>
-							<option value="he" selected="selected">Hebrew</option>
-							<?php } else { ?>
-							<option value="he">Hebrew</option>
-							<?php } ?>
-
-							<?php if($yotpo_language == 'hr' ) { ?>
-							<option value="hr" selected="selected">Croatian</option>
-							<?php } else { ?>
-							<option value="hr">Croatian</option>
-							<?php } ?>
-
-							<?php if($yotpo_language == 'it' ) { ?>
-							<option value="it" selected="selected">Italian</option>
-							<?php } else { ?>
-							<option value="it">Italian</option>
-							<?php } ?>
-
-							<?php if($yotpo_language == 'ja' ) { ?>
-							<option value="ja" selected="selected">Japanese</option>
-							<?php } else { ?>
-							<option value="ja">Japanese</option>
-							<?php } ?>
-
-							<?php if($yotpo_language == 'nl' ) { ?>
-							<option value="nl" selected="selected">Dutch</option>
-							<?php } else { ?>
-							<option value="nl">Dutch</option>
-							<?php } ?>
-
-							<?php if($yotpo_language == 'pt' ) { ?>
-							<option value="pt" selected="selected">Portuguese</option>
-							<?php } else { ?>
-							<option value="pt">Portuguese</option>
-							<?php } ?>
-
-							<?php if($yotpo_language == 'sv' ) { ?>
-							<option value="sv" selected="selected">Swedish</option>
-							<?php } else { ?>
-							<option value="sv">Swedish</option>
-							<?php } ?>
-
-							<?php if($yotpo_language == 'vi' ) { ?>
-							<option value="vi" selected="selected">Vietnamese</option>
-							<?php } else { ?>
-							<option value="vi">Vietnamese</option>
-							<?php } ?>
-					</select>
+					<td><?php echo $entry_language; ?></br><?php echo $entry_language_info;?><a href="http://support.yotpo.com/entries/21861473-Languages-Customization-" target="_blank"><?php echo $entry_here;?></a></td>
+					<td><input type="text" name="yotpo_language" maxlength="6"
+						value="<?php echo $yotpo_language; ?>"> <?php if ($error_language) { ?>
+						<span class="error"><?php echo $error_language; ?> </span> <?php } ?>
 					</td>
-				</tr>
+				</tr>				
 				<tr>
 					<td><?php echo $entry_widget_location; ?></td>
 					<td><select name="yotpo_widget_location">
@@ -240,6 +170,15 @@
 						name='yotpo_bottom_line_enabled' /> <?php } ?>
 					</td>
 				</tr>
+				<tr>
+					<td><?php echo $entry_completed_status; ?></td>
+					<td><select name="yotpo_map_status">
+					<?php foreach ($order_statuses as $status) { ?>
+							<option value="<?php echo $status['order_status_id'] ?>" <?php if($yotpo_map_status == $status['order_status_id']) { ?> selected="selected" <?php }?>><?php echo $status['name'] ?></option>
+					<?php }?>				
+					</select>
+					</td>
+				</tr>				
 			</table>
 			<?php if($yotpo_widget_location == 'other' ) { ?>
 			<div style="color: #8A8A8A">

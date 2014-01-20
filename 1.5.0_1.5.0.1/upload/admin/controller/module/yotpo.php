@@ -4,11 +4,11 @@ class ControllerModuleYotpo extends Controller {
 	private static $language_assigns = array('heading_title','heading_settings_title','heading_signup_title','button_save','button_cancel',
 										 'entry_appkey','entry_secret','entry_language','entry_review_tab_name','entry_widget_location',
 										 'entry_user_name','entry_password','entry_confirm_password','entry_email','entry_bottom_line','entry_past_orders','entry_sign_up_button',
-										 'entry_widget_location_other','entry_widget_location_tab','entry_widget_location_footer','entry_yotpo_version');
+										 'entry_widget_location_other','entry_widget_location_tab','entry_widget_location_footer','entry_yotpo_version','entry_completed_status','entry_language_info','entry_here');
 	private static $error_assigns = array('error_appkey','error_secret','error_user_name','error_email','error_password',
-									 	  'error_confirm_password','error_warning');
+									 	  'error_confirm_password','error_warning','error_language');
 	private static $config_assigns = array('yotpo_appkey','yotpo_secret','yotpo_language','yotpo_user_name','yotpo_email',
-									 	   'yotpo_password','yotpo_confirm_password','yotpo_review_tab_name','yotpo_widget_location','yotpo_bottom_line_enabled');
+									 	   'yotpo_password','yotpo_confirm_password','yotpo_review_tab_name','yotpo_widget_location','yotpo_bottom_line_enabled','yotpo_map_status');
 	
 	public function index() {   
 		//Load the language file for this module
@@ -19,6 +19,10 @@ class ControllerModuleYotpo extends Controller {
 
 		//Load the settings model.
 		$this->load->model('setting/setting');
+		
+		$this->load->model('localisation/order_status');
+		$order_statuses = $this->model_localisation_order_status->getOrderStatuses();
+		$this->data['order_statuses'] = $order_statuses;
 		
 		//Save the settings if the user has submitted the admin form (ie if someone has pressed save).
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
@@ -91,7 +95,10 @@ class ControllerModuleYotpo extends Controller {
 		if(is_null($this->data['yotpo_language']) || $this->data['yotpo_language'] == '') {
 			$this->data['yotpo_language'] = $this->language->get('yotpo_default_widget_language');
 		}	
-
+		
+		if(is_null($this->data['yotpo_map_status']) || $this->data['yotpo_map_status'] == '') {
+			$this->data['yotpo_map_status'] = $this->config->get('config_complete_status_id');
+		}
 		//SET UP BREADCRUMB TRAIL. YOU WILL NOT NEED TO MODIFY THIS.
   		$this->data['breadcrumbs'] = array();
 
