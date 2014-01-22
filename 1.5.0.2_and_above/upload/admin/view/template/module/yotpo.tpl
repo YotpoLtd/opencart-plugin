@@ -172,13 +172,19 @@
 				</tr>
 				<tr>
 					<td><?php echo $entry_completed_status; ?></td>
-					<td><select name="yotpo_map_status">
-					<?php foreach ($order_statuses as $status) { ?>
-							<option value="<?php echo $status['order_status_id'] ?>" <?php if($yotpo_map_status == $status['order_status_id']) { ?> selected="selected" <?php }?>><?php echo $status['name'] ?></option>
-					<?php }?>				
-					</select>
+					<td>
+						<div class="multiselect" style="width:20em;height:10em;border:solid 1px #c0c0c0;overflow:auto;">
+						<?php foreach ($order_statuses as $status) { ?>
+							<label style="display:block;"><input type="checkbox" 
+										  name="yotpo_map_status[]"										  
+										  value="<?php echo $status['order_status_id'] ?>"
+										  <?php if(in_array($status['order_status_id'], $yotpo_map_status)) { ?> checked <?php }?>/>
+										  <?php echo $status['name'] ?>										  
+							</label>
+						<?php }?>
+						</div>
 					</td>
-				</tr>				
+				</tr>					
 			</table>
 			<?php if($yotpo_widget_location == 'other' ) { ?>
 			<div style="color: #8A8A8A">

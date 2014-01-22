@@ -77,14 +77,12 @@ class ModelToolYotpo extends Model {
 
 	private function getAccaptedStatuses() 
 	{
-		$result = array();
 		$accepted_status = $this->config->get('yotpo_map_status');  
-		if(is_null($accepted_status) || empty($accepted_status)) {
-			array_push($result, $this->config->get('config_complete_status_id'));
+		if(is_array($accepted_status) && !empty($accepted_status)) {
+			return $accepted_status;
 		}
-		else {
-			array_push($result, $accepted_status);
-		}
+		$result = array();
+		array_push($result, $this->config->get('config_complete_status_id'));
 		return $result;
 	}
 	
