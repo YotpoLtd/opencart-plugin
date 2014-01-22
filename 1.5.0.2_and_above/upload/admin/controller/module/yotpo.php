@@ -97,7 +97,8 @@ class ControllerModuleYotpo extends Controller {
 		}
 
 		if(is_null($this->data['yotpo_map_status']) || $this->data['yotpo_map_status'] == '') {
-			$this->data['yotpo_map_status'] = $this->config->get('config_complete_status_id');
+			$this->data['yotpo_map_status'] = array();
+			array_push($this->data['yotpo_map_status'], $this->config->get('config_complete_status_id'));
 		}
 		
 		//SET UP BREADCRUMB TRAIL. YOU WILL NOT NEED TO MODIFY THIS.
