@@ -68,3 +68,7 @@ Alon
 Alon
 1) Allow users to select multiple values for triggering the MAP. 
 
+2014-01-22
+----
+Alon
+1) Bug fix: init the complete order status correctly. 
