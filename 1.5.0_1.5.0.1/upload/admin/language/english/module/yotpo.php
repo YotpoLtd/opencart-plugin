@@ -22,7 +22,7 @@ $_['entry_language']      = 'Select the widget language code.';
 $_['entry_language_info']      = 'You can find the supported langauge codes ';
 $_['entry_review_tab_name']      = 'Select widget tab name:';
 $_['entry_widget_location']      = 'Select widget location:';
-$_['entry_bottom_line']      = 'Enable bottom line:';
+$_['entry_bottom_line']      = 'Enable Star Ratings:';
 $_['entry_past_orders']      = 'Submit past orders';
 $_['entry_widget_location_other']         = 'Other (click save to see instructions)';
 $_['entry_widget_location_tab']         = 'Tab';
@@ -35,7 +35,7 @@ $_['entry_confirm_password']      = 'Confirm password:';
 $_['entry_email']      = 'E-mail:';
 $_['entry_sign_up_button']      = 'Sign up';
 
-$_['entry_yotpo_version']      = 'version 1.0.7';
+$_['entry_yotpo_version']      = 'version 1.0.8';
 $_['entry_completed_status']         = 'Select the status that will trigger the Mail After Purchase e-mail:';
 
 // Error
