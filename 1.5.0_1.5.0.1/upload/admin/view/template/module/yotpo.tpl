@@ -166,6 +166,8 @@
 				data-url=&quot;&lt;?php echo $product_url; ?&gt;&quot;<br>
 				data-image-url=&quot;&lt;?php echo $product_image_url; ?&gt;&quot;<br>
 				data-description=&quot;&lt;?php echo $product_description; ?&gt;&quot;<br>
+        data-lang=&quot;&lt;?php echo $language; ?&gt;&quot;&gt;<br>
+        &gt;
 				&lt;/div&gt;
 				</div>
 			</div>

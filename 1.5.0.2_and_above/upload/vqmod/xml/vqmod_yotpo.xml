@@ -159,8 +159,9 @@
                     data-name="<?php echo $product_name; ?>"
                     data-url="<?php echo $product_url; ?>"
                     data-image-url="<?php echo $product_image_url; ?>"
-                    data-description="<?php echo $product_description; ?>">
-                  </div> 
+                    data-description="<?php echo $product_description; ?>"
+                    data-lang="<?php echo $language; ?>">
+                  </div>
                  </div> 
                 <?php  } ?>
         ]]>
@@ -178,8 +179,9 @@
                     data-name="<?php echo $product_name; ?>"
                     data-url="<?php echo $product_url; ?>"
                     data-image-url="<?php echo $product_image_url; ?>"
-                    data-description="<?php echo $product_description; ?>">
-                  </div> 
+                    data-description="<?php echo $product_description; ?>"
+                    data-lang="<?php echo $language; ?>">
+                  </div>
                 <?php  } ?>
         ]]>
               </add>
