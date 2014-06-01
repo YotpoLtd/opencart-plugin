@@ -160,17 +160,12 @@
         <?php if($yotpo_widget_location == 'other' ) { ?>
 			<div style="color: #8A8A8A"> <?php echo $text_yotpo_widget_location_other; ?><br> <br> 
 				<div style="font-family: courier,monospace;font-weight: lighter;background: rgb(236, 236, 236);	padding: 15px;font-style: italic;">
-				&lt;div class=&quot;yotpo reviews&quot; <br>
-				data-appkey=&quot;&lt;?php echo $appkey;?&gt;&quot;<br>
-				data-domain=&quot;&lt;?php echo $domain; ?&gt;&quot;<br>
+				&lt;div class=&quot;yotpo yotpo-main-widget&quot; <br>
 				data-product-id=&quot;&lt;?php echo $product_id; ?&gt;&quot;<br>
-				data-product-models=&quot;&lt;?php echo $product_models; ?&gt;&quot; <br>
 				data-name=&quot;&lt;?php echo $product_name; ?&gt;&quot; <br>
 				data-url=&quot;&lt;?php echo $product_url; ?&gt;&quot;<br>
 				data-image-url=&quot;&lt;?php echo $product_image_url; ?&gt;&quot;<br>
 				data-description=&quot;&lt;?php echo $product_description; ?&gt;&quot;<br>
-				data-bread-crumbs=&quot;&lt;?php echo $product_bread_crumbs; ?&gt;&quot;<br>
-				data-lang=&quot;&lt;?php echo $language; ?&gt;&quot;&gt;<br>
 				&lt;/div&gt;
 				</div>
 			</div>

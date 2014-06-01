@@ -1,6 +1,6 @@
 <modification>
     <id>Yotpo www.yotpo.com</id>
-      <version>1.0.8</version>
+      <version>1.0.9</version>
 		   <vqmver>2.2.1</vqmver>
        <author>Yotpo</author>	
 
@@ -10,16 +10,13 @@
           <![CDATA[</head>]]>
         </search>
         <add>
-        	<![CDATA[
-        		<script type="text/javascript">
-        		(function(){function e(){var e=document.createElement('script');e.type='text/javascript',e.async=!0,e.src='//staticwww.yotpo.com/js/yQuery.js';var t=document.getElementsByTagName('script')[0];t.parentNode.insertBefore(e,t)}window.attachEvent?window.attachEvent('onload',e):window.addEventListener('load',e,!1)})();
-        		</script>
-       			<?php if(isset($yotpo_app_key) && is_string($yotpo_app_key)) {?>
-       			 <script type="text/javascript">
-       			 	var yotpo_app_key = "<?php echo $yotpo_app_key; ?>"; 
-       			 </script>
-       			<?php } ?>        		
-        	]]>
+          <![CDATA[
+            <?php if(isset($yotpo_app_key) && is_string($yotpo_app_key)) {?>
+              <script type="text/javascript">
+                (function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/<?php echo $yotpo_app_key; ?>/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+              </script>
+            <?php } ?>
+          ]]>
         </add>
       </operation>
     </file>
@@ -157,19 +154,14 @@
               <![CDATA[
                 <?php if ($yotpo_widget_location == 'tab') { ?>
                  <div id="tab-yotpo-review" class="tab-content">
-                  <div class="yotpo reviews"
-                    data-appkey="<?php echo $appkey; ?>"
-                    data-domain="<?php echo $domain; ?>"
+                  <div class="yotpo yotpo-main-widget"
                     data-product-id="<?php echo $product_id; ?>"
-                    data-product-models="<?php echo $product_models; ?>"
                     data-name="<?php echo $product_name; ?>"
                     data-url="<?php echo $product_url; ?>"
                     data-image-url="<?php echo $product_image_url; ?>"
-                    data-description="<?php echo $product_description; ?>"
-                    data-bread-crumbs="<?php echo $yotpo_bread_crumbs; ?>"
-                    data-lang="<?php echo $language; ?>">
-                  </div> 
-                 </div> 
+                    data-description="<?php echo $product_description; ?>">
+                  </div>
+                 </div>
                 <?php  } ?>
         ]]>
               </add>
@@ -181,18 +173,13 @@
               <add>
               <![CDATA[
                 <?php if ($yotpo_widget_location == 'footer') { ?>
-                  <div class="yotpo reviews"
-                    data-appkey="<?php echo $appkey; ?>"
-                    data-domain="<?php echo $domain; ?>"
+                  <div class="yotpo yotpo-main-widget"
                     data-product-id="<?php echo $product_id; ?>"
-                    data-product-models="<?php echo $product_models; ?>"
                     data-name="<?php echo $product_name; ?>"
                     data-url="<?php echo $product_url; ?>"
                     data-image-url="<?php echo $product_image_url; ?>"
-                    data-description="<?php echo $product_description; ?>"
-                    data-bread-crumbs="<?php echo $yotpo_bread_crumbs; ?>"
-                    data-lang="<?php echo $language; ?>">
-                  </div> 
+                    data-description="<?php echo $product_description; ?>">
+                  </div>
                 <?php  } ?>
         ]]>
               </add>
