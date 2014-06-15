@@ -35,7 +35,7 @@ $_['entry_confirm_password']      = 'Confirm password:';
 $_['entry_email']      = 'E-mail:';
 $_['entry_sign_up_button']      = 'Sign up';
 
-$_['entry_yotpo_version']      = 'version 1.0.8';
+$_['entry_yotpo_version']      = 'version 1.0.9';
 $_['entry_completed_status']         = 'Select the status that will trigger the Mail After Purchase e-mail:';
 
 // Error
